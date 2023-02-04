@@ -14,7 +14,7 @@
       dest: /home/ubuntu/.docker/config.json
 
   - name: deploy petclinic application
-    shell: |
+    shell:
       helm plugin install https://github.com/hypnoglow/helm-s3.git
       kubectl create ns petclinic-dev
       kubectl delete secret regcred -n petclinic-dev || true
