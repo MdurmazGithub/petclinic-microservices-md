@@ -13,8 +13,7 @@ chrome_options.add_argument("disable-dev-shm-usage")
 
 # Update webdriver instance of chrome-driver with adding chrome options
 driver = webdriver.Chrome(options=chrome_options)
-
-# Connect to the application
+#
 APP_IP = os.environ['MASTER_PUBLIC_IP']
 url = "http://"+APP_IP.strip()+":30001/"
 print(url)
