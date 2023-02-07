@@ -41,7 +41,7 @@ services:
     deploy:
       replicas: 1
     ports:
-     - 8080:8080
+     - 8087:8087
     labels:
       kompose.image-pull-secret: "regcred"
       kompose.service.expose: "{{ .Values.DNS_NAME }}"

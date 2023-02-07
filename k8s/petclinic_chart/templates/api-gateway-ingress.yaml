@@ -12,7 +12,7 @@ metadata:
   labels:
     io.kompose.service: api-gateway
   name: api-gateway
-sspec:
+spec:
   ingressClassName: nginx
   rules:
     - host: '{{ .Values.DNS_NAME }}'
@@ -22,7 +22,7 @@ sspec:
               service:
                 name: api-gateway
                 port:
-                  number: 8080
+                  number: 8087
             path: /
             pathType: Prefix
 status:
