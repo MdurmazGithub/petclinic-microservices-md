@@ -22,7 +22,7 @@ data "aws_vpc" "name" {
   default = true
 }
 
-resource "aws_security_group" "petclinic-mutual-sg" {
+resource "aws_security_group" "petclinic-mutual-sg-tr" {
   name = var.sec-gr-mutual
   vpc_id = data.aws_vpc.name.id
 }
@@ -35,7 +35,7 @@ resource "aws_security_group" "petclinic-kube-worker-sg" {
     protocol = "tcp"
     from_port = 10250
     to_port = 10250
-    security_groups = [aws_security_group.petclinic-mutual-sg.id]
+    security_groups = [aws_security_group.petclinic-mutual-sg-tr.id]
   }
   ingress {
     protocol = "tcp"
@@ -55,7 +55,7 @@ resource "aws_security_group" "petclinic-kube-worker-sg" {
     protocol = "udp"
     from_port = 8472
     to_port = 8472
-    security_groups = [aws_security_group.petclinic-mutual-sg.id]
+    security_groups = [aws_security_group.petclinic-mutual-sg-tr.id]
   }
   
   egress{
@@ -108,13 +108,13 @@ resource "aws_security_group" "petclinic-kube-master-sg" {
     protocol = "tcp"
     from_port = 2379
     to_port = 2379
-    security_groups = [aws_security_group.petclinic-mutual-sg.id]
+    security_groups = [aws_security_group.petclinic-mutual-sg-tr.id]
   }
   ingress {
     protocol = "tcp"
     from_port = 10250
     to_port = 10250
-    security_groups = [aws_security_group.petclinic-mutual-sg.id]
+    security_groups = [aws_security_group.petclinic-mutual-sg-tr.id]
   }
   ingress {
     protocol = "tcp"
@@ -138,7 +138,7 @@ resource "aws_security_group" "petclinic-kube-master-sg" {
     protocol = "udp"
     from_port = 8472
     to_port = 8472
-    security_groups = [aws_security_group.petclinic-mutual-sg.id]
+    security_groups = [aws_security_group.petclinic-mutual-sg-tr.id]
   }
   egress {
     protocol = "-1"
@@ -155,7 +155,7 @@ resource "aws_instance" "kube-master" {
     ami = "ami-013f17f36f8b1fefb"
     instance_type = "t3a.medium"
     iam_instance_profile = module.iam.master_profile_name
-    vpc_security_group_ids = [aws_security_group.petclinic-kube-master-sg.id, aws_security_group.petclinic-mutual-sg.id]
+    vpc_security_group_ids = [aws_security_group.petclinic-kube-master-sg.id, aws_security_group.petclinic-mutual-sg-tr.id]
     key_name = "clarus"
     subnet_id = "subnet-05464ca74f5953745"  # select own subnet_id of us-east-1a
     availability_zone = "us-east-1a"
@@ -173,7 +173,7 @@ resource "aws_instance" "worker-1" {
     ami = "ami-013f17f36f8b1fefb"
     instance_type = "t3a.medium"
         iam_instance_profile = module.iam.worker_profile_name
-    vpc_security_group_ids = [aws_security_group.petclinic-kube-worker-sg.id, aws_security_group.petclinic-mutual-sg.id]
+    vpc_security_group_ids = [aws_security_group.petclinic-kube-worker-sg.id, aws_security_group.petclinic-mutual-sg-tr.id]
     key_name = "clarus"
     subnet_id = "subnet-05464ca74f5953745"  # select own subnet_id of us-east-1a
     availability_zone = "us-east-1a"
@@ -191,7 +191,7 @@ resource "aws_instance" "worker-2" {
     ami = "ami-013f17f36f8b1fefb"
     instance_type = "t3a.medium"
     iam_instance_profile = module.iam.worker_profile_name
-    vpc_security_group_ids = [aws_security_group.petclinic-kube-worker-sg.id, aws_security_group.petclinic-mutual-sg.id]
+    vpc_security_group_ids = [aws_security_group.petclinic-kube-worker-sg.id, aws_security_group.petclinic-mutual-sg-tr.id]
     key_name = "clarus"
     subnet_id = "subnet-05464ca74f5953745"  # select own subnet_id of us-east-1a
     availability_zone = "us-east-1a"
