@@ -102,7 +102,7 @@ resource "aws_security_group" "petclinic-kube-master-sg" {
     protocol = "tcp"
     from_port = 2380
     to_port = 2380
-    security_groups = [aws_security_group.petclinic-mutual-sg.id]
+    security_groups = [aws_security_group.petclinic-mutual-sg-tr.id]
   }
   ingress {
     protocol = "tcp"
